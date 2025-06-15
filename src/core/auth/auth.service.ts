@@ -12,5 +12,6 @@ export class AuthService {
 
     async register(name: string, email: string, password: string, birthDate: Date): Promise<void> {
         // Implement registration logic here
+        
     }
 }
