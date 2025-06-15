@@ -28,6 +28,30 @@ export class CourseService {
         }));
     }
 
+    async getCourseById (courseId: string): Promise<ICourseInterface | undefined> {
+        const course = await this.prisma.course.findUnique({
+            where: { id: courseId },
+            include: {
+                userEnrollments: true
+            }
+        });
+
+        if (!course) {
+            throw new Error("Curso não encontrado");
+        }
+
+        return {
+            id: course.id,
+            name: course.name,
+            description: course.description ?? "",
+            cover: course.cover ?? "",
+            enrollmentsCount: course.userEnrollments.length,
+            startDate: course.startDate ?? undefined,
+            isEnrolled: course.isEnrolled,
+            enrollmentCanceled: course.enrollmentCancelled,
+        };
+    }
+
     async registerInCourse(courseId: string, userId: string): Promise<ICourseInterface | undefined> {
         return undefined;
     }

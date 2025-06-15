@@ -15,3 +15,11 @@ export const registerCourse = async (req: Request, res: Response): Promise<any> 
     const data = await courseService.registerInCourse(courseId, userId);
     return res.send(data);
 }
+
+export const getCourseById = async (req: Request, res: Response): Promise<any> => {
+    const courseService = new CourseService();
+    const { courseId } = req.params;
+
+    const data = await courseService.getCourseById(courseId);
+    return res.send(data);
+}
