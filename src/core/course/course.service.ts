@@ -28,7 +28,7 @@ export class CourseService {
         }));
     }
 
-    async registerCourse(courseId: string, userId: string): Promise<ICourseInterface | undefined> {
+    async registerInCourse(courseId: string, userId: string): Promise<ICourseInterface | undefined> {
         return undefined;
     }
 }

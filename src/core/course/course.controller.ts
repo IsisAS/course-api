@@ -12,6 +12,6 @@ export const registerCourse = async (req: Request, res: Response): Promise<any> 
     const courseService = new CourseService();
     const { courseId, userId } = req.body;
 
-    const data = await courseService.registerCourse(courseId, userId);
+    const data = await courseService.registerInCourse(courseId, userId);
     return res.send(data);
 }
