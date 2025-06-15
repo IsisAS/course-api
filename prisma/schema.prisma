@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+model Usuario {
+  id         Int         @id @default(autoincrement())
+  nome       String      @db.VarChar(255)
+  email      String      @unique @db.VarChar(255)
+  senha      String      @db.VarChar(255)
+  nascimento DateTime    @db.Date
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @updatedAt @map("updated_at")
+  inscricoes Inscricao[]
+
+  @@map("usuarios")
+}
+
+model Curso {
+  id                 Int         @id @default(autoincrement())
+  nome               String      @db.VarChar(255)
+  descricao          String?     @db.Text
+  capa               String?     @db.VarChar(500)
+  inscricoes         Int         @default(0)
+  inicio             DateTime    @db.Date
+  inscrito           Boolean     @default(false)
+  createdAt          DateTime    @default(now()) @map("created_at")
+  updatedAt          DateTime    @updatedAt @map("updated_at")
+  inscricoesUsuarios Inscricao[]
+
+  @@map("cursos")
+}
+
+model Inscricao {
+  id                 Int      @id @default(autoincrement())
+  usuarioId          Int      @map("usuario_id")
+  cursoId            Int      @map("curso_id")
+  inscricaoCancelada Boolean  @default(false) @map("inscricao_cancelada")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+  usuario            Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  curso              Curso    @relation(fields: [cursoId], references: [id], onDelete: Cascade)
+
+  @@unique([usuarioId, cursoId])
+  @@map("inscricoes")
+}
