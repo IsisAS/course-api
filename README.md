@@ -39,41 +39,28 @@ Esta é uma API REST completa para uma plataforma de inscrição de cursos, dese
    npx prisma generate
    ```
 
-3. **Execute o script de inicialização do banco:**
-   ```bash
-   sudo -u postgres psql -d curso_platform -f database.sql
-   ```
-
-4. **Configure as variáveis de ambiente:**
+3. **Configure as variáveis de ambiente:**
    Crie ou edite o arquivo `.env`:
    ```env
-   PORT=3001
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_DATABASE=curso_platform
-   DB_USER=postgres
-   DB_PASSWORD=postgres
-   JWT_SECRET=your_jwt_secret_key_here_change_in_production
-   DATABASE_URL="postgresql://postgres:postgres@localhost:5432/curso_platform?schema=public"
+   PORT=
+   DB_HOST=
+   DB_PORT=
+   DB_DATABASE=
+   DB_USER=
+   DB_PASSWORD=
+   JWT_SECRET=
+   DATABASE_URL=schema=public"
    ```
 
-5. **Gere o cliente Prisma:**
+4. **Run o projeto:**
    ```bash
-   npx prisma generate
-   npx prisma db push
-   ```
-
-6. **Compile o projeto:**
-   ```bash
-   npm run build
+   npm run dev
    ```
 
 ## 📜 Scripts Disponíveis
 
 - `npm start` – Inicia a API (versão com pg)
-- `npm run start:prisma` – Inicia a API com Prisma
 - `npm run dev` – Inicia em modo desenvolvimento (pg)
-- `npm run dev:prisma` – Inicia em modo desenvolvimento (Prisma)
 - `npm run build` – Compila os arquivos TypeScript
-- `npx prisma generate` – Gera o client do Prisma
-- `npx prisma db push` – Aplica o schema no banco de dados
+- `npm run init` - Inicilaizar os dados do curso
+- 
