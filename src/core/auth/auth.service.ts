@@ -1,11 +1,35 @@
+import { Secret } from "jsonwebtoken";
+import { UserInterface } from "../user/user.interface";
+import UserRepository from "../user/user.repository";
+
 export default class AuthService {
-    async login(email: string, password: string): Promise<{ token: string }> {
+    userRepository: UserRepository;
+    constructor() {
+        this.userRepository = new UserRepository();
+    }
+
+    async login(email: string, password: string) {
         if (!email || !password) {
             throw new Error("Email e senha são obrigatórios");
         }
-        console.log(`Tentando fazer login com email: ${email}`);
-        return {
-            token: ""
+
+        const user = <UserInterface>await this.userRepository
+            .first({
+                email: email || ""
+            })
+            .exec();
+
+        if (user) {
+            if (user.password !== password) {
+                throw new Error("Senha incorreta");
+            }
+
+            return {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                token: process.env.JWT_SECRET as Secret,
+            }
         }
     }
 }

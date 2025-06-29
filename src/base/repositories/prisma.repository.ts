@@ -380,7 +380,6 @@ export default class PrismaRepository<T> implements BaseRepositoryInterface<T> {
 
         try {
             const result = await (this.prisma[this.model] as any).findMany({
-                where: this.query,
                 orderBy: this.orderBy,
                 take: this.take,
                 skip: this.skip,
