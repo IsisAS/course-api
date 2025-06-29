@@ -26,7 +26,7 @@ model Course {
   description         String?      @db.Text
   cover               String?      @db.VarChar(500)
   enrollmentsCount    Int          @default(0)
-  startDate           DateTime?     @db.Date
+  startDate           DateTime?    @db.Date
   isEnrolled          Boolean      @default(false)
   enrollmentCancelled Boolean      @default(false)
   createdAt           DateTime     @default(now()) @map("created_at")
@@ -40,7 +40,8 @@ model Enrollment {
   id                   String   @id @default(uuid())
   userId               String
   courseId             String
-  isEnrollmentCanceled Boolean  @default(false) @map("inscricao_cancelada")
+  isEnrollmentCanceled Boolean  @default(false)
+  isEnrolled           Boolean  @default(true)
   createdAt            DateTime @default(now()) @map("created_at")
   updatedAt            DateTime @updatedAt @map("updated_at")
   user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)

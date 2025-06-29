@@ -11,9 +11,6 @@ export const authenticateToken = (req: AuthenticatedRequest, res: Response, next
 
   if (!token) return res.status(401).json({ message: 'Token não fornecido' });
 
-  console.log("🔐 Token recebido:", token);
-  console.log("🔑 JWT_SECRET:", process.env.JWT_SECRET);
-
   jwt.verify(token, process.env.JWT_SECRET as string, (err, user) => {
     if (err) return res.status(403).json({ message: 'Token inválido' });
     (req as any).user = user;

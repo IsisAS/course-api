@@ -1,4 +1,5 @@
 import { Secret } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { UserInterface } from "../user/user.interface";
 import UserRepository from "../user/user.repository";
 
@@ -24,11 +25,18 @@ export default class AuthService {
                 throw new Error("Senha incorreta");
             }
 
+            const token = jwt.sign(
+                { id: user.id }, 
+                process.env.JWT_SECRET as Secret, 
+                { expiresIn: "1h" } 
+            );
+
+            
             return {
                 id: user.id,
                 email: user.email,
                 name: user.name,
-                token: process.env.JWT_SECRET as Secret,
+                token: token,
             }
         }
     }
