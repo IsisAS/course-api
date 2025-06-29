@@ -17,7 +17,7 @@ model User {
   updatedAt   DateTime     @updatedAt @map("updated_at")
   enrollments Enrollment[]
 
-  @@map("usuarios")
+  @@map("users")
 }
 
 model Course {
@@ -33,7 +33,7 @@ model Course {
   updatedAt           DateTime     @updatedAt @map("updated_at")
   userEnrollments     Enrollment[]
 
-  @@map("cursos")
+  @@map("courses")
 }
 
 model Enrollment {
@@ -47,5 +47,5 @@ model Enrollment {
   course               Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@unique([userId, courseId])
-  @@map("inscricoes")
+  @@map("enrollments")
 }

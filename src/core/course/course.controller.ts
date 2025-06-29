@@ -1,25 +1,27 @@
 import { Request, Response } from "express";
-import { CourseService } from "./course.service";
+import CourseService from "./course.service";
 
 export const getAllCourses = async (req: Request, res: Response): Promise<any> => {
-    const courseService = new CourseService();
-    const data = await courseService.getAllCourses();
+	const courseService = new CourseService();
+	const data = await courseService.getAll();
 
-    return res.send(data);
+	return res.send(data);
 }
 
-export const registerCourse = async (req: Request, res: Response): Promise<any> => {
-    const courseService = new CourseService();
-    const { courseId, userId } = req.body;
+export const create = async (req: Request, res: Response) => {
+	const courseService = new CourseService();
 
-    const data = await courseService.registerInCourse(courseId, userId);
-    return res.send(data);
-}
+	const props = req.body;
+	await courseService.create(props);
 
-export const getCourseById = async (req: Request, res: Response): Promise<any> => {
-    const courseService = new CourseService();
-    const { courseId } = req.params;
+	res.status(201).send({ message: "Curso criado com sucesso!" });
+};
 
-    const data = await courseService.getCourseById(courseId);
-    return res.send(data);
-}
+export const findById = async (req: Request, res: Response) => {
+	const courseService = new CourseService();
+
+	const { id } = req.params;
+	const data = await courseService.findById(id);
+
+	return res.send(data);
+};

@@ -1,5 +1,4 @@
-export class AuthService {
-
+export default class AuthService {
     async login(email: string, password: string): Promise<{ token: string }> {
         if (!email || !password) {
             throw new Error("Email e senha são obrigatórios");
@@ -8,10 +7,5 @@ export class AuthService {
         return {
             token: ""
         }
-    }
-
-    async register(name: string, email: string, password: string, birthDate: Date): Promise<void> {
-        // Implement registration logic here
-        
     }
 }

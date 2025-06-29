@@ -1,0 +1,46 @@
+import { PrismaClient, Prisma } from '@prisma/client';
+import { BaseRepositoryInterface, id } from './base.repository';
+export default class PrismaRepository<T> implements BaseRepositoryInterface<T> {
+    private validateKey;
+    private prisma;
+    private model;
+    private query;
+    private orderBy;
+    private take;
+    private skip;
+    private include;
+    private selectInclude;
+    private isSelectCalled;
+    constructor(model: keyof PrismaClient);
+    forceResetQuery(): void;
+    all(query?: Prisma.InputJsonObject): this;
+    count(query?: Prisma.InputJsonObject, distinct?: string): Promise<number>;
+    find(query?: Prisma.InputJsonObject): this;
+    first(query?: Prisma.InputJsonObject): this;
+    findById(id: id | string | undefined): this;
+    startAt(startAt: number): this;
+    sort(sort: Record<string, Prisma.SortOrder>): this;
+    size(size: number): this;
+    with(...relations: (string | Record<string, any>)[]): this;
+    getFormattedQuery(query?: Record<string, unknown>, validateKey?: boolean): Prisma.InputJsonObject;
+    formatQuery(query?: Record<string, any>): Prisma.InputJsonObject;
+    logQuery(): void;
+    select(fields: Record<string, boolean>): this;
+    group(fields: Prisma.InputJsonObject): this;
+    firstOrCreate(props: T): Promise<T | undefined>;
+    upsert(id: id | string | undefined, props: T): Promise<T | undefined>;
+    create(props: T): Promise<T | undefined>;
+    insertMany(props: T[]): Promise<T[] | undefined>;
+    updateById(id: id | string | undefined, props: Prisma.InputJsonObject): Promise<T | undefined>;
+    updateManyById(ids: id[] | string[] | undefined, props: Prisma.InputJsonObject): Promise<unknown>;
+    distinctFind(query: Prisma.InputJsonObject | undefined, distinct: string, skip?: number, take?: number, orderBy?: Record<string, Prisma.SortOrder>, mode?: 'all' | 'specific'): Promise<T[]>;
+    distinctSpecificFind(query: Prisma.InputJsonObject | undefined, distinct: string, orderBy?: Record<string, Prisma.SortOrder>): Promise<T[]>;
+    deleteById(id: id | string | undefined): Promise<T | undefined>;
+    deleteMany(query?: Prisma.InputJsonObject): Promise<void>;
+    deleteManyById(ids: id[] | string[] | undefined): Promise<void>;
+    unwind(unwind: string): this;
+    clear(): Promise<void>;
+    exec(): Promise<T[] | T | undefined>;
+    nativeSQL(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Promise<T[] | T | undefined>;
+}
+//# sourceMappingURL=prisma.repository.d.ts.map

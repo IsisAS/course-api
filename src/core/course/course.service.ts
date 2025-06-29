@@ -1,58 +1,11 @@
-import { PrismaClient } from "@prisma/client";
-import { ICourseInterface } from "./course.interface";
+import BaseService from "../../base/base.service";
+import { CourseInterface } from "./course.interface";
+import CourseRepository from "./course.repository";
 
-export class CourseService {
-    prisma: PrismaClient;
+export default class CourseService extends BaseService<CourseInterface> {
+
 
     constructor() {
-        this.prisma = new PrismaClient();
-    }
-
-    async getAllCourses(): Promise<ICourseInterface[]> {
-        const courses = await this.prisma.course.findMany(
-            {
-                include: {
-                    userEnrollments: true
-                }
-            });
-
-        return courses.map((course) => ({
-            id: course.id,
-            name: course.name,
-            description: course.description ?? "",
-            cover: course.cover ?? "",
-            enrollmentsCount: course.userEnrollments.length,
-            startDate: course.startDate ?? undefined,
-            isEnrolled: course.isEnrolled,
-            enrollmentCanceled: course.enrollmentCancelled,
-        }));
-    }
-
-    async getCourseById (courseId: string): Promise<ICourseInterface | undefined> {
-        const course = await this.prisma.course.findUnique({
-            where: { id: courseId },
-            include: {
-                userEnrollments: true
-            }
-        });
-
-        if (!course) {
-            throw new Error("Curso não encontrado");
-        }
-
-        return {
-            id: course.id,
-            name: course.name,
-            description: course.description ?? "",
-            cover: course.cover ?? "",
-            enrollmentsCount: course.userEnrollments.length,
-            startDate: course.startDate ?? undefined,
-            isEnrolled: course.isEnrolled,
-            enrollmentCanceled: course.enrollmentCancelled,
-        };
-    }
-
-    async registerInCourse(courseId: string, userId: string): Promise<ICourseInterface | undefined> {
-        return undefined;
+        super(CourseRepository);
     }
 }
