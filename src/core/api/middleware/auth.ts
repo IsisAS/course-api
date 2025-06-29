@@ -5,34 +5,19 @@ interface AuthenticatedRequest extends Request {
   userId?: number;
 }
 
-export const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
-  try {
-    let token = req.cookies?.token;
-    
-    if (!token) {
-      const authHeader = req.headers.authorization;
-      token = authHeader && authHeader.startsWith('Bearer ') 
-        ? authHeader.substring(7) 
-        : null;
-    }
+export const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextFunction): any => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
-    if (!token) {
-      res.status(403).json({
-        message: 'Token de acesso requerido'
-      });
-      return;
-    }
+  if (!token) return res.status(401).json({ message: 'Token não fornecido' });
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'default-secret') as any;
-    req.userId = decoded.userId;
-    
+  console.log("🔐 Token recebido:", token);
+  console.log("🔑 JWT_SECRET:", process.env.JWT_SECRET);
+
+  jwt.verify(token, process.env.JWT_SECRET as string, (err, user) => {
+    if (err) return res.status(403).json({ message: 'Token inválido' });
+    (req as any).user = user;
     next();
-  } catch (error) {
-    console.error('Erro na autenticação:', error);
-    res.status(403).json({
-      message: 'Token inválido'
-    });
-    return;
-  }
+  });
 };
 

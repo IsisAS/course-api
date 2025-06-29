@@ -25,3 +25,12 @@ export const findById = async (req: Request, res: Response): Promise<any> => {
 
 	return res.send(data);
 };
+
+export const register = async (req: Request, res: Response): Promise<any> => {
+	const courseService = new CourseService();
+
+	const props = req.body;
+	const data = await courseService.register(props);
+
+	return res.send(data);
+};
