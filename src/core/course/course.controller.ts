@@ -34,3 +34,12 @@ export const register = async (req: Request, res: Response): Promise<any> => {
 
 	return res.send(data);
 };
+
+export const cancelRegistration = async (req: Request, res: Response): Promise<any> => {
+	const courseService = new CourseService();
+
+	const props = req.body;
+	const data = await courseService.cancelRegistration(props);
+
+	return res.send(data);
+};

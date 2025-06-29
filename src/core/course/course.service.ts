@@ -22,4 +22,22 @@ export default class CourseService extends BaseService<CourseInterface> {
         return data;
     }
 
+    async cancelRegistration(props: EnrollmentInterface): Promise<EnrollmentInterface | undefined> {
+        const enrollment = <EnrollmentInterface>await this.enrollmentsService.first({
+            courseId: props.courseId,
+            userId: props.userId,
+        });
+
+        if (!enrollment) {
+            throw new Error("Inscrição não encontrada");
+        }
+
+        enrollment.isEnrollmentCanceled = true;
+        enrollment.isEnrolled = false;
+
+        const updatedEnrollment = await this.enrollmentsService.updateById(enrollment.id, enrollment);
+
+        return updatedEnrollment;
+    }
+
 }
