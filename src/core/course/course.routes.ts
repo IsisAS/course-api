@@ -4,5 +4,6 @@ import * as CourseController from "./course.controller";
 const CourseRoutes = Router();
 CourseRoutes.get("/", CourseController.getAllCourses);
 CourseRoutes.post("/", CourseController.create);
+CourseRoutes.get("/:id", CourseController.findById);
 
 export default CourseRoutes;

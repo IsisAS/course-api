@@ -17,7 +17,7 @@ export const create = async (req: Request, res: Response) => {
 	res.status(201).send({ message: "Curso criado com sucesso!" });
 };
 
-export const findById = async (req: Request, res: Response) => {
+export const findById = async (req: Request, res: Response): Promise<any> => {
 	const courseService = new CourseService();
 
 	const { id } = req.params;
